@@ -1,18 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Store.Web.Controllers
+// /search?query=b1b
+ namespace Store.Web.Controllers
 {
     public class SearchController : Controller 
     {
+        private readonly BookService bookService;
+
         private readonly IBookRepository bookRepository;
-        public SearchController(IBookRepository bookRepository)
+        public SearchController(BookService bookService)
         {
-            this.bookRepository = bookRepository;
+            this.bookService = bookService;
         }
 
         public IActionResult Index( string query)
         {
-            var books = bookRepository.GetAllByTitle(query);
+            var books = bookService.GetAllByQuery(query);
 
             return View(books);
         }
